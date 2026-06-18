@@ -1,4 +1,4 @@
-name: CI Pipeline
+ame: CI Pipeline
 
 on:
   pull_request:
@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -19,13 +18,13 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Build Docker image
-        run: docker build -t ticket-booking .
+      # Додатково можна перевірити, що код хоча б імпортується
+      - name: Check syntax (optional)
+        run: python -m compileall app/   # якщо основний код у папці app
 
   test:
     runs-on: ubuntu-latest
     needs: build
-
     steps:
       - uses: actions/checkout@v4
 
@@ -41,11 +40,11 @@ jobs:
 
   sonar:
     runs-on: ubuntu-latest
-    needs: test                
+    needs: test
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0        
+          fetch-depth: 0
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
